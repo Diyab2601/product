@@ -4,7 +4,15 @@ import logo from '../assets/images/Logo.png'
 
 const Footer = () => {
 
-  if (window.location.pathname === "/loginform") {
+  if (window.location.pathname === "/login") {
+    return null;
+  }
+
+  if (window.location.pathname === "/createaccount") {
+    return null;
+  }
+
+  if (window.location.pathname === "/forgetpassword") {
     return null;
   }
   return (

@@ -3,7 +3,16 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
 
- if (window.location.pathname === "/loginform") {
+ if (window.location.pathname === "/login") {
+    return null;
+  }
+
+  
+ if (window.location.pathname === "/createaccount") {
+    return null;
+  }
+
+  if (window.location.pathname === "/forgetpassword") {
     return null;
   }
 

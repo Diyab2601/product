@@ -11,7 +11,9 @@ import Footer from './footer/Footer';
 import Whatwedo from './whatwedo/Whatwedo';
 import Blogdetails from './pages/home/components/Blogdetails';
 import Contact from './pages/contact/components/Contact';
-import Loginform from './pages/home/components/Loginform';
+import Login from './pages/components/Login';
+import Createaccount from './pages/components/Createaccount';
+import Forgetpassword from './pages/components/Forgetpassword';
 
 
 
@@ -34,7 +36,9 @@ function App() {
           <Route path="/blogdetails" element={<Blogdetails />} />
      
           <Route path="/register" element={<Contact />} />
-            <Route path="/loginform" element={<Loginform />} />
+            <Route path="/login" element={<Login/>} />
+            <Route path="/createaccount" element={<Createaccount/>} />
+            <Route path="/forgetpassword" element={<Forgetpassword />} />
 
         </Routes>
      <Footer/>
