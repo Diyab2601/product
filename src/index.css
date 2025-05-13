@@ -1,0 +1,22 @@
+.h-600px {
+  height: 800px;
+}
+
+.h-420px {
+  height: 420px ;
+}
+.height{
+  height: 300px;
+}
+
+@media  (max-width:641px)   {
+  .sm-h-300px {
+    height: 300px
+  }
+}
+
+@media  (max-width:641px)   {
+  .sm-w-full {
+   width: fit-content;
+  }
+}
