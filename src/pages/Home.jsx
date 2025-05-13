@@ -7,6 +7,7 @@ const Home = () => {
     <div>
       {/* <Component1 /> */}
       <Component2 />
+      ssssss
     </div>
   )
 }
