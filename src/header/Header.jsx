@@ -7,6 +7,10 @@ const Header = () => {
     return null;
   }
 
+  if (window.location.pathname === "/register") {
+    return null;
+  }
+
   
  if (window.location.pathname === "/createaccount") {
     return null;

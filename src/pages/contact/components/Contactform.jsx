@@ -1,29 +1,32 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import { Toast } from 'primereact/toast';
 
 const Contactform = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    role: "",
-    password: "",
-  });
+  const toast = useRef(null);
+
+   const show = () => {
+        toast.current.show({ severity: 'info', summary: 'Info', detail: 'Submitted successfully' });
+    };
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
   const [password, setPassword] = useState("");
 
+
+    const isFormInvalid = !name || !email || !role || !password;
+
 //   console.log(email, "formData");
   console.log(role, "formData");
   console.log(password, "formData");
 
 
-  const handleChange = (e) => {
-    console.log(e, "index");
+  // const handleChange = (e) => {
+  //   console.log(e, "index");
    
-    const { name, value } = e;
-    setFormData({ ...formData, [name]: value });
-  };
+  //   const { name, value } = e;
+  //   setFormData({ ...formData, [name]: value });
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,6 +50,7 @@ const Contactform = () => {
       const response = await fetch(url, options);
       const data = await response.json();
       console.log(data, 'data');
+      toast.current.show({ severity: 'info', summary: 'Info', detail: 'Submitted successfully' });
     } catch (error) {
       console.error("Error:", error);
     }
@@ -54,6 +58,7 @@ const Contactform = () => {
 
   return (
     <div className="container mx-auto lg:py-16 md:py-10 py-6 lg:px-12 md:px-8 px-5">
+       <Toast ref={toast} position="bottom-right"/>
       <div className="mx-auto w-1/2 bg-white  p-18">
         <h1 className="text-4xl font-bold text-center text-lime-700 mb-4">
           Register Form
@@ -129,7 +134,8 @@ const Contactform = () => {
 
           <button
             type="submit"
-            className=" w-full bg-lime-600 text-white py-2 rounded-full "
+            className={`mt-6 w-full bg-lime-600 text-white py-2 rounded-full ${isFormInvalid ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}     //Ternary Operator
+            disabled={isFormInvalid}
           >
             Submit
           </button>

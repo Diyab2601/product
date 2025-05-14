@@ -12,6 +12,10 @@ const Footer = () => {
     return null;
   }
 
+  if (window.location.pathname === "/register") {
+    return null;
+  }
+
   if (window.location.pathname === "/forgetpassword") {
     return null;
   }
