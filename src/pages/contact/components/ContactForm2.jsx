@@ -1,18 +1,18 @@
-import React, { useRef, useState } from "react";
-import { Toast } from "primereact/toast";
+import React, { useState } from "react";
+
 import { useDispatch } from "react-redux";
-import { setUserData } from "../../../redux/user/userSlice";
+// import { setUserData } from "../../../redux/user/userSlice";
 import Swal from "sweetalert2";
+import LoginOne from "./LoginOne";
 
 const ContactForm2 = () => {
-  const toast = useRef(null);
   const dispatch = useDispatch();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
   const [password, setPassword] = useState("");
-
+  const [userData, setUserData] = useState([]);
   const isFormInvalid = !name || !email || !role || !password;
 
   const handleSubmit = async (e) => {
@@ -38,21 +38,28 @@ const ContactForm2 = () => {
     try {
       const response = await fetch(url, options);
       const data = await response.json();
-      console.log(data, "data");
-
       dispatch(setUserData(data));
-
-      Swal.fire({
-        title: "Congratulations!",
-        text: "You have submitted the form!",
-        icon: "success"
-      });
-
-      toast.current.show({
-        severity: "info",
-        summary: "Info",
-        detail: "Submitted successfully",
-      });
+      console.log(data, "data");
+      if (data.statusCode === 200) {
+        Swal.fire({
+          title: "Congratulations!",
+          text: data.message,
+          icon: "success",
+        });
+        
+      } else if (data.statusCode === 409) {
+        Swal.fire({
+          title: "Oops...",
+          text: data.message,
+          icon: "error",
+        });
+      } else {
+        Swal.fire({
+          title: "Something went wrong",
+          text: data.message,
+          icon: "alert",
+        });
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -60,7 +67,6 @@ const ContactForm2 = () => {
 
   return (
     <div className="container mx-auto lg:py-16 md:py-10 py-6 lg:px-12 md:px-8 px-5">
-      <Toast ref={toast} />
       <div className="mx-auto w-1/2 bg-white  p-18">
         <h1 className="text-4xl font-bold text-center text-lime-700 mb-4">
           Register Form 2
@@ -135,13 +141,17 @@ const ContactForm2 = () => {
           </div>
           <button
             type="submit"
-            className={`mt-6 w-full bg-lime-600 text-white py-2 rounded-full ${isFormInvalid ? "cursor-not-allowed opacity-60" : "cursor-pointer"}`}
+            className={`mt-6 w-full bg-lime-600 text-white py-2 rounded-full ${
+              isFormInvalid ? "cursor-not-allowed opacity-60" : "cursor-pointer"
+            }`}
             disabled={isFormInvalid}
           >
             Submit
           </button>
         </form>
       </div>
+
+      <LoginOne userData={userData} />
     </div>
   );
 };

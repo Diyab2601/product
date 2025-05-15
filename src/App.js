@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -14,8 +14,21 @@ import Contact from "./pages/contact/components/Contact";
 import Login from "./pages/components/Login";
 import Createaccount from "./pages/components/Createaccount";
 import Forgetpassword from "./pages/components/Forgetpassword";
+import LoginOne from "./login1/LoginOne";
+import AdminPanel from "./pages/admin/AdminPanel";
+import { fetchProducts } from "./redux/product/productSlice";
+import { useDispatch } from "react-redux";
 
 function App() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+  const mount = async () => {
+    await dispatch(fetchProducts()); // Dispatch your async thunk here
+  };
+  mount();
+}, [dispatch]);
+
   return (
     <div className="bg-gray-100 min-h-screen ">
       <Router>
@@ -31,6 +44,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/createaccount" element={<Createaccount />} />
             <Route path="/forgetpassword" element={<Forgetpassword />} />
+              <Route path="/login1" element={<LoginOne />} />
+              <Route path="/admin-panel" element={<AdminPanel />} />
           </Routes>
           <Footer />
         </div>

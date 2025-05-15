@@ -19,6 +19,18 @@ const Footer = () => {
   if (window.location.pathname === "/forgetpassword") {
     return null;
   }
+
+if (window.location.pathname === "/login1") {
+    return null;
+  }
+
+
+  if (window.location.pathname === "/admin-panel") {
+    return null;
+  }
+
+
+
   return (
 
     <div className="flex flex-wrap justify-between bg-neutral-800 text-white px-5 md:px-12 py-10">

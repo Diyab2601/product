@@ -16,12 +16,7 @@ const Blog = () => {
   const product = useSelector((state) => state.product.productss);
   console.log(product, "product");
 
-useEffect(() => {
-  const mount = async () => {
-    await dispatch(fetchProducts()); // Dispatch your async thunk here
-  };
-  mount();
-}, [dispatch]);
+
 
   console.log(users, "users");
 

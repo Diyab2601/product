@@ -19,6 +19,21 @@ const Header = () => {
   if (window.location.pathname === "/forgetpassword") {
     return null;
   }
+  
+
+  if (window.location.pathname === "/forgetpassword") {
+    return null;
+  }
+  
+
+if (window.location.pathname === "/login1") {
+    return null;
+  }
+
+  
+  if (window.location.pathname === "/admin-panel") {
+    return null;
+  }
 
   return (
 
