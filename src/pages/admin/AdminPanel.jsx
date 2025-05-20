@@ -9,6 +9,7 @@ import Stock from "./components/Stock";
 import Invoice from "./components/Invoice";
 import Buyorders from "./components/Buyorders";
 import { useState } from "react";
+import AllCharts from "./components/AllChart";
 
 const AdminPanel = () => {
   const menuArray = [
@@ -55,6 +56,11 @@ const AdminPanel = () => {
       id: 10,
       name: "Wallet",
     },
+
+    {
+      id: 11,
+      name: "Chart",
+    },
   ];
   const [selectedMenu, setSelectedMenu] = useState("Dashboard");
 
@@ -99,6 +105,7 @@ const AdminPanel = () => {
           {selectedMenu === "Invoices" && <Invoice />}
           {selectedMenu === "Inventory & Stocks" && <Inventory />}
           {selectedMenu === "Buy Orders" && <Buyorders />}
+          {selectedMenu === "Chart" && <AllCharts />}
         </div>
       </div>
     </>
