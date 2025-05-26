@@ -1,11 +1,21 @@
-import React from 'react'
+import { createSlice } from "@reduxjs/toolkit";
 
-const Dashboard = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+const initialState = {
+  dashboards: [],
+};
 
-export default Dashboard
+export const dashboardSlice = createSlice({
+  name: "dashboard",
+  initialState,
+  reducers: {
+    setDashboard: (state, action) => {
+      state.dashboards = action.payload;
+    },
+    addDashboard: (state, action) => {
+      state.dashboards.push(action.payload);
+    },
+  },
+});
+
+export const { setDashboard, addDashboard } = dashboardSlice.actions;
+export default dashboardSlice.reducer;

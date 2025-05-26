@@ -17,20 +17,33 @@ import Forgetpassword from "./pages/components/Forgetpassword";
 import LoginOne from "./login1/LoginOne";
 import AdminPanel from "./pages/admin/AdminPanel";
 import { fetchProducts } from "./redux/product/productSlice";
-import { useDispatch } from "react-redux";
+
+
+import { Provider,useDispatch } from "react-redux";
+import { store } from "./redux/store";
+import persistStore from "redux-persist/es/persistStore";
+import { PersistGate } from "redux-persist/integration/react";
+let persistor = persistStore(store);
 
 function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
   const mount = async () => {
-    await dispatch(fetchProducts()); // Dispatch your async thunk here
+    await dispatch(fetchProducts()); 
   };
   mount();
 }, [dispatch]);
 
   return (
+    
     <div className="bg-gray-100 min-h-screen ">
+
+
+      <Provider store={store}>   
+        <PersistGate persistor={persistor}>
+
+
       <Router>
         <div>
           <Header />
@@ -50,6 +63,8 @@ function App() {
           <Footer />
         </div>
       </Router>
+          </PersistGate>               
+      </Provider>
     </div>
   );
 }

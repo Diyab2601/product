@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import { Dropdown } from "primereact/dropdown";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { Sidebar } from "primereact/sidebar";
 import { InputText } from "primereact/inputtext";
 import { addProduct } from "../../../redux/product/productSlice";
-import { X } from "react-feather";
+import { X } from "react-feather"; 
 
 const Products = () => {
   const [selectedCity, setSelectedCity] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [visible, setVisible] = useState(false);
 
+
+  
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -29,7 +31,7 @@ const Products = () => {
     { name: "Paris", code: "PRS" },
   ];
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => {  //.....
     e.preventDefault();
     if (!title || !description || !preview) {
       return alert("Please fill all fields and select an image");
@@ -44,7 +46,7 @@ const Products = () => {
       })
     );
 
-    // Clear form
+   
     setTitle("");
     setDescription("");
     setImage(null);

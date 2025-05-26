@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Sidebar } from "primereact/sidebar";
 import { Link } from "react-router-dom";
+// import { setDashboard } from "../../../redux/dashboard/dashboardSlice";
+import { addDashboard, setDashboard } from "../../../redux/dashboard/dashboardSlice";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -13,17 +17,20 @@ const Dashboard = () => {
   const [url, setUrl] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
   const [cards, setCards] = useState([]);
-
-  const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
+  const [image, setImage] = useState(null);
 
   const actions = [{ name: "Action" }, { name: "Summary" }, { name: "URL" }];
+const getAllDashboard = useSelector((state) => state.dashboard?.dashboards);
+
+  console.log(getAllDashboard, "getAllDashboard");
 
   const handleSubmit = () => {
     if (!title || !selectedType) {
       alert("Please fill in title and select a type");
     } else {
       const newCard = {
+               id: Date.now(),
         type: selectedType.name,
         title,
         description: selectedType.name === "Action" ? page : description,
@@ -38,9 +45,12 @@ const Dashboard = () => {
         newCard.description = description;
       }
 
-      setCards([...cards, newCard]);
+      dispatch(
+        addDashboard(newCard)
+      );
 
-      
+      // setCards((prev) => [...prev, newCard]);
+
       setTitle("");
       setDescription("");
       setPage("");
@@ -191,13 +201,13 @@ const Dashboard = () => {
         <Button label="Add" onClick={() => setVisible(true)} />
       </div>
 
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
-        {cards.length === 0 ? (
+    <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
+        {getAllDashboard?.length === 0 ? (
           <p className="text-center text-gray-500 col-span-full">
             No cards submitted yet.
           </p>
         ) : (
-          cards.map((card, index) => (
+          getAllDashboard?.map((card, index) => (
             <div
               key={index}
               className="bg-white shadow-md rounded-lg p-6 h-auto w-[22rem] flex flex-col justify-start"
@@ -218,7 +228,9 @@ const Dashboard = () => {
                 </Link>
               )}
               {card.type === "Summary" && (
-                <p className="text-gray-600 mb-4">Description: {card.description}</p>
+                <p className="text-gray-600 mb-4">
+                  Description: {card.description}
+                </p>
               )}
               {card.type === "URL" && (
                 <iframe
@@ -226,7 +238,6 @@ const Dashboard = () => {
                   height="200"
                   src={card.url}
                   title="URL preview"
-                
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
                   allowFullScreen
@@ -240,7 +251,7 @@ const Dashboard = () => {
             </div>
           ))
         )}
-      </div>
+      </div> 
     </div>
   );
 };
