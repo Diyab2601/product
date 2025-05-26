@@ -10,9 +10,12 @@ const Dashboard = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [page, setPage] = useState("");
-    const [url, setUrl] = useState("");
+  const [url, setUrl] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
   const [cards, setCards] = useState([]);
+
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
 
   const actions = [{ name: "Action" }, { name: "Summary" }, { name: "URL" }];
 
@@ -24,21 +27,30 @@ const Dashboard = () => {
         type: selectedType.name,
         title,
         description: selectedType.name === "Action" ? page : description,
-        url: selectedType.name === 'URL' ? page : url
+        image: preview,
       };
+
+      if (selectedType.name === "URL") {
+        newCard.url = url;
+      }
+
+      if (selectedType.name === "Summary") {
+        newCard.description = description;
+      }
 
       setCards([...cards, newCard]);
 
+      
       setTitle("");
       setDescription("");
       setPage("");
-      setUrl("")
+      setUrl(null);
       setSelectedType(null);
+      setImage(null);
+      setPreview(null);
       setVisible(false);
     }
   };
-
-  console.log(cards, "card");
 
   return (
     <div className="p-4">
@@ -104,12 +116,65 @@ const Dashboard = () => {
               </label>
               <InputText
                 className="text-sm w-full"
-                placeholder="Enter Page"
+                placeholder="Enter URL"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
               />
             </div>
           )}
+
+          <div className="mt-4">
+            <label className="block text-md font-medium text-gray-700 mb-2">
+              Image
+            </label>
+
+            {preview ? (
+              <div className="overflow-auto relative">
+                <img
+                  src={preview}
+                  alt="Preview"
+                  className="w-full max-h-72 object-contain border border-gray-300 p-2"
+                />
+                <button
+                  onClick={() => {
+                    setPreview(null);
+                    setImage(null);
+                  }}
+                  className="absolute top-2 right-2 text-red-600 font-bold text-xl"
+                >
+                  ×
+                </button>
+              </div>
+            ) : (
+              <div className="p-6 border border-gray-300 rounded-md border-dashed w-full h-[250px] relative flex justify-center items-center">
+                <div className="text-center">
+                  <p>Drag File to upload</p>
+                  <button
+                    type="button"
+                    className="px-4 py-2 text-sm text-white bg-stone-600 rounded my-6"
+                  >
+                    Select file to upload
+                  </button>
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                      setImage(file);
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        setPreview(reader.result);
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                  className="opacity-0 absolute top-0 left-0 w-full h-full cursor-pointer"
+                />
+              </div>
+            )}
+          </div>
 
           <div className="flex justify-center mt-10">
             <Button
@@ -135,29 +200,43 @@ const Dashboard = () => {
           cards.map((card, index) => (
             <div
               key={index}
-              className="bg-white shadow-md rounded-lg p-6 h-64 w-[22rem] flex flex-col justify-center"
+              className="bg-white shadow-md rounded-lg p-6 h-auto w-[22rem] flex flex-col justify-start"
             >
               <h2 className="text-lg font-semibold mb-2">{card.title}</h2>
-              {card.type === "Action" && (
-                <Link to="">
-                  <p className="text-gray-600 mb-4">Page</p>
-                </Link>
-              )}
-              {card.type === "Summary" && (
-                <p className="text-gray-600 mb-4">Description</p>
-              )}
-              {card.type === "URL" && (
-                <input
-                  placeholder="URL here"
-                  className="text-sm border p-2 w-full rounded "
+
+              {card.image && (
+                <img
+                  src={card.image}
+                  alt="Uploaded"
+                  className="mb-4 w-full h-40 object-cover rounded"
                 />
               )}
 
-          
-                <button className="mt-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-                  Submit
-                </button>
-            
+              {card.type === "Action" && (
+                <Link to="">
+                  <p className="text-gray-600 mb-4">Page: {card.description}</p>
+                </Link>
+              )}
+              {card.type === "Summary" && (
+                <p className="text-gray-600 mb-4">Description: {card.description}</p>
+              )}
+              {card.type === "URL" && (
+                <iframe
+                  width="100%"
+                  height="200"
+                  src={card.url}
+                  title="URL preview"
+                
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                  className="mb-4"
+                ></iframe>
+              )}
+
+              <button className="mt-auto bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                Submit
+              </button>
             </div>
           ))
         )}

@@ -1,8 +1,11 @@
 import React, { useRef, useState } from "react";
 import { Toast } from 'primereact/toast';
+import { setUserData } from "../../../redux/user/userSlice";
+import { useDispatch } from "react-redux";
 
 const Contactform = () => {
   const toast = useRef(null);
+  const dispatch= useDispatch();
 
    const show = () => {
         toast.current.show({ severity: 'info', summary: 'Info', detail: 'Submitted successfully' });
@@ -17,7 +20,7 @@ const Contactform = () => {
     const isFormInvalid = !name || !email || !role || !password;
 
 //   console.log(email, "formData");
-  console.log(role, "formData");
+  console.log(name, "formData");
   console.log(password, "formData");
 
 
@@ -49,6 +52,7 @@ const Contactform = () => {
     try {
       const response = await fetch(url, options);
       const data = await response.json();
+      dispatch(setUserData(data));
       console.log(data, 'data');
       toast.current.show({ severity: 'info', summary: 'Info', detail: 'Submitted successfully' });
     } catch (error) {

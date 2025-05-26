@@ -16,10 +16,12 @@ const AdminPanel = () => {
     {
       id: 1,
       name: "Dashboard",
+      role:"Admin"
     },
     {
       id: 2,
       name: "Products",
+      role:"Admin"
     },
     {
       id: 3,
