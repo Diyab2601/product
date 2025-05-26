@@ -5,8 +5,11 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Sidebar } from "primereact/sidebar";
 import { Link } from "react-router-dom";
-// import { setDashboard } from "../../../redux/dashboard/dashboardSlice";
-import { addDashboard, setDashboard } from "../../../redux/dashboard/dashboardSlice";
+
+import {
+  addDashboard,
+  setDashboard,
+} from "../../../redux/dashboard/dashboardSlice";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -21,7 +24,7 @@ const Dashboard = () => {
   const [image, setImage] = useState(null);
 
   const actions = [{ name: "Action" }, { name: "Summary" }, { name: "URL" }];
-const getAllDashboard = useSelector((state) => state.dashboard?.dashboards);
+  const getAllDashboard = useSelector((state) => state.dashboard?.dashboards);
 
   console.log(getAllDashboard, "getAllDashboard");
 
@@ -30,7 +33,7 @@ const getAllDashboard = useSelector((state) => state.dashboard?.dashboards);
       alert("Please fill in title and select a type");
     } else {
       const newCard = {
-               id: Date.now(),
+        id: Date.now(),
         type: selectedType.name,
         title,
         description: selectedType.name === "Action" ? page : description,
@@ -45,11 +48,7 @@ const getAllDashboard = useSelector((state) => state.dashboard?.dashboards);
         newCard.description = description;
       }
 
-      dispatch(
-        addDashboard(newCard)
-      );
-
-      // setCards((prev) => [...prev, newCard]);
+      dispatch(addDashboard(newCard));
 
       setTitle("");
       setDescription("");
@@ -201,7 +200,7 @@ const getAllDashboard = useSelector((state) => state.dashboard?.dashboards);
         <Button label="Add" onClick={() => setVisible(true)} />
       </div>
 
-    <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
         {getAllDashboard?.length === 0 ? (
           <p className="text-center text-gray-500 col-span-full">
             No cards submitted yet.
@@ -251,7 +250,7 @@ const getAllDashboard = useSelector((state) => state.dashboard?.dashboards);
             </div>
           ))
         )}
-      </div> 
+      </div>
     </div>
   );
 };

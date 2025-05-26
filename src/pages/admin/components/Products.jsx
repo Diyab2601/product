@@ -14,7 +14,7 @@ const Products = () => {
   const [visible, setVisible] = useState(false);
 
 
-  
+
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -45,7 +45,6 @@ const Products = () => {
         image: preview, 
       })
     );
-
    
     setTitle("");
     setDescription("");
